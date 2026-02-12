@@ -9,14 +9,20 @@ CORS(app)
 # ✅ DATABASE CONNECTION
 try:
     engine = create_engine(
-        "mysql+pymysql://root:@localhost/student_db"
+    "mysql+pymysql://root:MLaGsykaethooUljyRbrmkSZlVjdseUd@tramway.proxy.rlwy.net:40240/railway"
+)
 
-    )
+
     print("✅ Database Connected")
 
 except Exception as e:
     print("❌ Database Connection Failed")
     print(e)
+
+    @app.route("/")
+    def home():
+     return "✅ Student Performance API Running"
+
 
 
 # ✅ INSERT API
