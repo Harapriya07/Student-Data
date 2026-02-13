@@ -3,7 +3,6 @@ function updateValue(id, value) {
 }
 
 async function submitData() {
-
     const data = {
         Name: document.getElementById("Name").value,
         Gender: document.getElementById("Gender").value,
@@ -13,19 +12,22 @@ async function submitData() {
         TestPrep: document.getElementById("TestPrep").value,
         ParentMaritalStatus: document.getElementById("ParentMaritalStatus").value,
         PracticeSport: document.getElementById("PracticeSport").value,
-        IsFirstChild: document.getElementById("IsFirstChild").value,
-        NrSiblings: document.getElementById("NrSiblings").value,
+        IsFirstChild: parseInt(document.getElementById("IsFirstChild").value) || 0,
+        NrSiblings: parseInt(document.getElementById("NrSiblings").value) || 0,
         TransportMeans: document.getElementById("TransportMeans").value,
-        WklyStudyHours: document.getElementById("WklyStudyHours").value,
-        MathScore: document.getElementById("MathScore").value,
-        ReadingScore: document.getElementById("ReadingScore").value,
-        WritingScore: document.getElementById("WritingScore").value
+        WklyStudyHours: parseInt(document.getElementById("WklyStudyHours").value) || 0,
+        MathScore: parseInt(document.getElementById("MathScore").value) || 0,
+        ReadingScore: parseInt(document.getElementById("ReadingScore").value) || 0,
+        WritingScore: parseInt(document.getElementById("WritingScore").value) || 0
     };
 
+    
     if (!data.Name || !data.Gender) {
-        alert("⚠ Name & Gender are required");
+        alert(" Name & Gender are required");
         return;
     }
+
+    console.log("Sending data:", data); 
 
     try {
         const response = await fetch(
@@ -37,10 +39,18 @@ async function submitData() {
             }
         );
 
+        
         const result = await response.json();   
-        alert(result.message);                  
+
+        if (response.ok) {
+            alert(result.message);  
+        } else {
+            alert(" Backend Error: " + result.error);
+            console.error("Backend Error:", result);
+        }
 
     } catch (error) {
+        console.error("Fetch Error:", error);
         alert("🚨 Server Error / Backend Sleeping");
     }
 }
