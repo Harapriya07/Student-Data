@@ -26,18 +26,20 @@ async function submitData() {
         return;
     }
 
-    try {
-        const response = await fetch("http://127.0.0.1:5000/add_student", {
+   try {
+    const response = await fetch(
+        "https://student-data-dvl4.onrender.com/add_student",
+        {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
-        });
+        }
+    );
 
-        const result = await response.json();
+    const result = await response.json();
+    alert(result.message || result.error);
 
-        alert(result.message || result.error);
-
-    } catch (error) {
-        alert(" Server not running");
-    }
+} catch (error) {
+    alert(" Server not running");
 }
+
