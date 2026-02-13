@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from flask_cors import CORS
@@ -6,26 +6,23 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# ✅ DATABASE CONNECTION
+
 try:
     engine = create_engine(
-    "mysql+pymysql://root:MLaGsykaethooUljyRbrmkSZlVjdseUd@tramway.proxy.rlwy.net:40240/railway"
-)
-
-
-    print("✅ Database Connected")
+        "mysql+pymysql://root:MLaGsykaethooUljyRbrmkSZlVjdseUd@tramway.proxy.rlwy.net:40240/railway"
+    )
+    print("Database Connected")
 
 except Exception as e:
-    print("❌ Database Connection Failed")
+    print("Database Connection Failed")
     print(e)
 
-    @app.route("/")
-    def home():
-     return "✅ Student Performance API Running"
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 
-
-# ✅ INSERT API
 @app.route("/add_student", methods=["POST"])
 def add_student():
 
@@ -74,14 +71,13 @@ def add_student():
             conn.execute(query, data)
             conn.commit()
 
-        return jsonify({"message": "✅ Data Inserted Successfully"})
+        return jsonify({"message": "Data Inserted Successfully"})
 
     except SQLAlchemyError as e:
-        print("🔥 INSERT ERROR:", e)
+        print("INSERT ERROR:", e)
         return jsonify({"error": str(e)}), 500
 
 
-# ✅ FETCH LAST 5 RECORDS (Optional — Useful Later)
 @app.route("/students", methods=["GET"])
 def get_students():
 
@@ -99,10 +95,9 @@ def get_students():
         return jsonify(rows)
 
     except SQLAlchemyError as e:
-        print("🔥 FETCH ERROR:", e)
+        print(" FETCH ERROR:", e)
         return jsonify({"error": "Fetch failed"}), 500
 
 
-# ✅ RUN SERVER
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
