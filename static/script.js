@@ -21,25 +21,27 @@ async function submitData() {
         ReadingScore: document.getElementById("ReadingScore").value,
         WritingScore: document.getElementById("WritingScore").value
     };
+
     if (!data.Name || !data.Gender) {
         alert("⚠ Name & Gender are required");
         return;
     }
 
-   try {
-    const response = await fetch(
-        "https://student-data-dvl4.onrender.com/add_student",
-        {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data)
-        }
-    );
+    try {
+        const response = await fetch(
+            "https://student-data-dvl4.onrender.com/add_student",
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            }
+        );
 
-    const result = await response.text();
-    alert(result);
+        const result = await response.json();   
+        alert(result.message);                  
 
-} catch (error) {
-    alert(" Server not running");
+    } catch (error) {
+        alert("🚨 Server Error / Backend Sleeping");
+    }
 }
 
