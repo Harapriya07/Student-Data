@@ -36,8 +36,8 @@ async function submitData() {
         }
     );
 
-    const result = await response.json();
-    alert(result.message || result.error);
+    const result = await response.text();
+    alert(result);
 
 } catch (error) {
     alert(" Server not running");
